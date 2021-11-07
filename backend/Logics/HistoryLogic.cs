@@ -46,7 +46,7 @@ namespace backend.Logics
 
         public async Task<ActionResult<IEnumerable<History>>> List()
         {
-            return await dbContext.Historys.ToListAsync();
+            return await dbContext.Historys.OrderBy(history => history.DateSave).ToListAsync();
         }
 
         public History Get(Guid _historyId)

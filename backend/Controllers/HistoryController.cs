@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Net.Http;
 
 namespace backend.Controllers
 {

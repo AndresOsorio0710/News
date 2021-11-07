@@ -22,7 +22,7 @@ namespace backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddDbContext<NewsContext>(opt => opt.UseSqlServer(@"Server=.\;Database=news;Trusted_Connection=True;"));
+            services.AddDbContext<NewsContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
