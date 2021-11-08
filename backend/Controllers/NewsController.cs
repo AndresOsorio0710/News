@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
-    [Route("news/api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class NewsController : ControllerBase
     {
