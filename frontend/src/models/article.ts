@@ -4,4 +4,5 @@ export default interface Article {
   description: string;
   url: string;
   urlToImage: string;
+  expanded?: boolean;
 }

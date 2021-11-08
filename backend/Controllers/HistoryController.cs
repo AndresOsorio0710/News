@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
@@ -15,16 +16,19 @@ namespace backend.Controllers
         private readonly NewsContext dbContext;
         private readonly HistoryLogic historyLogic;
         private readonly NewsLogic newsLogic;
-        public HistoryController(NewsContext _dbContext)
+        public IConfiguration Configuration { get; }
+        public HistoryController(NewsContext _dbContext, IConfiguration configuration)
         {
-            dbContext = _dbContext;
-            historyLogic = new HistoryLogic(_dbContext);
-            newsLogic = new NewsLogic();
+            this.dbContext = _dbContext;
+            this.historyLogic = new HistoryLogic(_dbContext);
+            this.Configuration = configuration;
+            this.newsLogic = new NewsLogic(this.Configuration.GetConnectionString("ApiKeyNews"), this.Configuration.GetConnectionString("ApiKeyWeather"));
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HistoryResponse>>> GetHistory()
         {
+            Console.WriteLine(Configuration.GetConnectionString("API_KEY"));
             List<History> historys = await dbContext.Historys.ToListAsync();
             List<HistoryResponse> historyResponses = new List<HistoryResponse>();
             foreach (History history in historys)
@@ -37,17 +41,6 @@ namespace backend.Controllers
                 historyResponses.Add(historyResponse);
             }
             return historyResponses;
-        }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<HistoryResponse>> GetHistory(Guid id)
-        {
-            History history = historyLogic.Get(id);
-            NewsResponse newsResponse = newsLogic.GetNewsResponse(history.City, history.Data);
-            List<Article> articles = newsResponse.Articles;
-            HistoryResponse historyResponse = new HistoryResponse();
-            historyResponse.City = history.City;
-            historyResponse.Info = articles;
-            return Ok(historyResponse);
         }
     }
 }

@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import HistoryService from "../../services/historyService";
 import History from "../../models/history";
+import ArticleMaster from "../article/articleMaster";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from "@mui/material";
 
 const HistoryList = () => {
   const [historys, setHistorys] = React.useState<History[]>([]);
@@ -8,6 +15,20 @@ const HistoryList = () => {
   useEffect(() => {
     retrieveHistory();
   }, []);
+
+  const handleChange =
+    (index: number) => (event: React.SyntheticEvent, newExpanded: boolean) => {
+      setHistorys(
+        historys.map((history, i) => {
+          if (i == index) {
+            history.expanded = true;
+          } else {
+            history.expanded = false;
+          }
+          return history;
+        })
+      );
+    };
 
   const retrieveHistory = () => {
     HistoryService.get()
@@ -24,13 +45,28 @@ const HistoryList = () => {
     <div>
       <h1>History</h1>
       {historys &&
-        historys.map((history, i) => <h5 key={i}>{history.city} {
-            history.info.map((article,i)=>(
-                <div key={i}>
-                    <h6>{article.title}</h6>
-                </div>
-            ))
-        }</h5>)}
+        historys.map((history, i) => (
+          <div key={i}>
+            {
+              <Accordion
+                key={i}
+                expanded={history.expanded}
+                onChange={handleChange(i)}
+              >
+                <AccordionSummary>
+                  <Typography>{history.city}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {history.info.map((article, i) => (
+                    <div key={i}>
+                      <ArticleMaster article={article} />
+                    </div>
+                  ))}
+                </AccordionDetails>
+              </Accordion>
+            }
+          </div>
+        ))}
     </div>
   );
 };

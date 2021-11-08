@@ -9,17 +9,35 @@ namespace backend.Logics
     public class NewsLogic
     {
         HttpClient client = new HttpClient();
-        
+        private string keyNews { get; set; }
+        private string keyWeather { get; set; }
+
+        public NewsLogic(string _keyNews, string _keyWeather)
+        {
+            this.keyNews = _keyNews;
+            this.keyWeather = _keyWeather;
+        }
+
         public async Task<NewsResponse> GetArticles(string _city)
         {
+            string response = "";
+            NewsResponse newsResponse;
             string date = DateTime.Now.ToString("yyyy-MM-dd");
-            string url = String.Format($"https://newsapi.org/v2/everything?q={_city}&from={date}&sortBy=publishedAt&apiKey=72a543937116474086018577296dd60f");
-            Console.WriteLine(url);
-            string response = await client.GetStringAsync(url);
-            NewsResponse newsResponse = JsonConvert.DeserializeObject<NewsResponse>(response);
-            response = await client.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={_city}&units=metric&appid=d6cff0aeebb2050ae786067f65bf6ae3");
-            newsResponse.Weather = JsonConvert.DeserializeObject<Weather>(response);
-            return newsResponse;
+            try
+            {
+                string url = $"https://newsapi.org/v2/everything?q={_city}&from={date}&sortBy=publishedAt&apiKey={keyNews}";
+                Console.WriteLine(url);
+                response = await client.GetStringAsync(url);
+                newsResponse = JsonConvert.DeserializeObject<NewsResponse>(response);
+                response = await client.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={_city}&units=metric&appid={keyWeather}");
+                newsResponse.Weather = JsonConvert.DeserializeObject<Weather>(response);
+                return newsResponse;
+            }
+            catch (SystemException e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
 
         public NewsResponse GetNewsResponse(string _city, string _date)
@@ -30,12 +48,20 @@ namespace backend.Logics
 
         private async Task<String> GetArticles(string _city, string _date)
         {
-            HttpClient client = new HttpClient();
-            string url = String.Format($"https://newsapi.org/v2/everything?q={_city}&from={_date}&to={_date}&sortBy=publishedAt&apiKey=72a543937116474086018577296dd60f");
-            Console.WriteLine(url);
-            string response = await client.GetStringAsync(url);
-
-            return response;
+            string response = "";
+            try
+            {
+                HttpClient client = new HttpClient();
+                string url = String.Format($"https://newsapi.org/v2/everything?q={_city}&from={_date}&to={_date}&sortBy=publishedAt&apiKey={keyNews}");
+                Console.WriteLine(url);
+                response = await client.GetStringAsync(url);
+                return response;
+            }
+            catch (SystemException e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
     }
 

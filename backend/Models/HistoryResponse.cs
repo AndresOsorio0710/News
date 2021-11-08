@@ -8,6 +8,7 @@ namespace backend.Models
         [JsonProperty("city")]
         public string City { get; set; }
         [JsonProperty("info")]
-        public List<Article> Info { get; set; }        
+        public List<Article> Info { get; set; }    
+        public bool expanded {get;set;}    
     }
 }

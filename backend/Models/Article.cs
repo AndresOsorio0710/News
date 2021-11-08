@@ -7,5 +7,6 @@ namespace backend.Models
         public string Description { get; set; }
         public string Url { get; set; }
         public string UrlToImage { get; set; }
+        public bool expanded { get; set; }
     }
 }

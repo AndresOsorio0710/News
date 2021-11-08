@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using backend.Models;
 using backend.Logics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace backend.Controllers
 {
@@ -10,13 +11,16 @@ namespace backend.Controllers
     public class NewsController : ControllerBase
     {
         private readonly NewsContext dbContext;
-        static NewsLogic newsLogic = new NewsLogic();
+        private readonly NewsLogic newsLogic;
         private readonly HistoryLogic historyLogic;
+        public IConfiguration Configuration { get; }
 
-        public NewsController(NewsContext _dbContext)
+        public NewsController(NewsContext _dbContext, IConfiguration configuration)
         {
-            dbContext = _dbContext;
-            historyLogic = new HistoryLogic(_dbContext);
+            this.dbContext = _dbContext;
+            this.historyLogic = new HistoryLogic(_dbContext);
+            this.Configuration = configuration;
+            this.newsLogic = new NewsLogic(this.Configuration.GetConnectionString("ApiKeyNews"), this.Configuration.GetConnectionString("ApiKeyWeather"));
         }
 
         [HttpGet("{_city}")]

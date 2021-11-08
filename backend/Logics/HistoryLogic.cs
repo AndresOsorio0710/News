@@ -11,7 +11,6 @@ namespace backend.Logics
     public class HistoryLogic
     {
         private readonly NewsContext dbContext;
-
         public HistoryLogic(NewsContext _dbContext)
         {
             dbContext = _dbContext;
@@ -31,9 +30,7 @@ namespace backend.Logics
                 {
                     dbContext.Historys.Add(_history);
                     await dbContext.SaveChangesAsync();
-                    Console.WriteLine("OK");
                 }
-                Console.WriteLine("YA EXISTE");
                 return _history;
             }
             catch (System.Exception error)
@@ -46,12 +43,21 @@ namespace backend.Logics
 
         public async Task<ActionResult<IEnumerable<History>>> List()
         {
-            return await dbContext.Historys.OrderBy(history => history.DateSave).ToListAsync();
+            try
+            {
+                return await dbContext.Historys.OrderBy(history => history.DateSave).ToListAsync();
+            }
+            catch (SystemException e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+
         }
 
         public History Get(Guid _historyId)
         {
-            return dbContext.Historys.Where(history => (history.HistoryId==_historyId)).FirstOrDefault();
+            return dbContext.Historys.Where(history => (history.HistoryId == _historyId)).FirstOrDefault();
         }
 
         private Boolean validateHistory(History _history)
