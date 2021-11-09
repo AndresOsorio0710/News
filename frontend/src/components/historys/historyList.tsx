@@ -8,9 +8,10 @@ import {
   AccordionDetails,
   Typography,
 } from "@mui/material";
+import ArticleList from "../article/articleList";
 
 const HistoryList = () => {
-  const [historys, setHistorys] = React.useState<History[]>([]);
+  const [historys, setHistorys] = useState<History[]>([]);
 
   useEffect(() => {
     retrieveHistory();
@@ -57,11 +58,7 @@ const HistoryList = () => {
                   <Typography>{history.city}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {history.info.map((article, i) => (
-                    <div key={i}>
-                      <ArticleMaster article={article} />
-                    </div>
-                  ))}
+                  <ArticleList articles={history.info}/>
                 </AccordionDetails>
               </Accordion>
             }
