@@ -1,13 +1,111 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+.page {
+  padding: 10px;
+  margin: 10px;
+}
+
+.page .panel {
+  background-color: #fff;
+  border-radius: 6px;
+  border-bottom: 2px solid #607d8b;
+  width: 100%;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.page .panel .header {
+  border-bottom: 1px solid #cfd8dc;
+}
+
+.page .panel .header .title {
+  color: #607d8b;
+  font-size: 1.1em;
+  padding: 10px 10px;
+}
+
+.warning {
+  margin-top: 3px;
+  background-color: #e89b38;
+  color: white;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.page .panel .inside {
+  padding: 0px 0px 0px 0px;
+}
+
+.page .panel .inside .item {
+  color: #607d8b;
+  padding: 5px 10px;
+}
+
+.page .panel .inside .accordion1 {
+  border-radius: 0;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid #b0bec5;
+  background-color: #cfd8dc;
+  color: #607d8b;
+}
+.page .panel .inside .accordion1:hover {
+  background-color: #607d8b;
+  color: #cfd8dc;
+}
+
+.page .panel .inside .accordion1 .title {
+  font-size: 1.1em;
+}
+
+.page .panel .inside .accordion2 {
+  border-radius: 0;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid #cfd8dc;
+  background-color: #eceff1;
+  color: #607d8b;
+}
+.page .panel .inside .accordion2:hover {
+  background-color: #cfd8dc;
+  color: #607d8b;
+}
+
+.page .panel .inside .accordion2 .title {
+  font-size: 1em;
+}
+
+.page .panel .inside .accordion2 .look {
+  text-decoration: none;
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+.page .panel .inside .accordion2 .look:hover {
+  font-size: 0.9em;
+  font-style: oblique;
+}
+
+.page .panel .inside .input {
+  margin-top: 10px;
+}
+
+.mleft10 {
+  margin-left: 10px;
+}
+.mtop10 {
+  margin-top: 10px;
 }

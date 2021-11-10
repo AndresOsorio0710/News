@@ -1,10 +1,14 @@
+using System;
 namespace backend.Models
 {
     public class Weather
     {
-        public Main main { get; set; }
-        public Wind wind { get; set; }
-        public double visibility { get; set; }
-        public double timezone { get; set; }
+        public Main Main { get; set; }
+        public Wind Wind { get; set; }
+        public Clouds Clouds { get; set; }
+        public int Dt { get; set; }
+        public double Visibility { get; set; }
+        public double Timezone { get; set; }
     }
+
 }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  Box,
   Accordion,
   AccordionSummary,
   Typography,
@@ -10,6 +9,7 @@ import {
   Paper,
 } from "@mui/material";
 import Article from "../../models/article";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface Props {
   articles: Array<Article>;
@@ -38,25 +38,32 @@ const ArticleList: React.FC<Props> = ({ articles }) => {
 
   return (
     <Paper>
-      <TableContainer sx={{ maxHeight: 500 }}>
+      <TableContainer sx={{ maxHeight: 480 }}>
         {articles &&
           articles.map((article, i) => (
             <Accordion
               key={i}
               expanded={article.expanded}
               onChange={handleChange(i)}
+              className="accordion2"
             >
-              <AccordionSummary>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls={"panel{" + i + "bh-content"}
+                id={"panel" + i + "bh-header"}
+              >
                 {article.title ? (
-                  <Typography>{article.title}</Typography>
+                  <Typography variant="body2" className="title">
+                    {article.title}
+                  </Typography>
                 ) : (
                   <Typography>Title</Typography>
                 )}
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>{article.description}</Typography>
-                <Link href={article.url} underline="none">
-                  Ver
+                <Typography variant="caption">{article.description}</Typography>
+                <Link href={article.url} underline="none" className="look">
+                  {"\n"}Look{">>>"}
                 </Link>
               </AccordionDetails>
             </Accordion>

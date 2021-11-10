@@ -17,13 +17,5 @@ namespace backend.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Required, Column("dateSave"), JsonProperty("date")]
         public DateTime DateSave { get; set; }
-
-        //public List<Article> Articles{get;set;}
-        /*public History(string _city)
-        {
-            HistoryId = Guid.NewGuid();
-            City = _city;
-            DateSave = DateTime.Now;
-        }*/
     }
 }

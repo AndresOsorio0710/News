@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import HistoryService from "../../services/historyService";
 import History from "../../models/history";
-import ArticleMaster from "../article/articleMaster";
 import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Typography,
+  TableContainer,
 } from "@mui/material";
 import ArticleList from "../article/articleList";
+import { Box } from "@mui/system";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const HistoryList = () => {
   const [historys, setHistorys] = useState<History[]>([]);
@@ -22,7 +24,7 @@ const HistoryList = () => {
       setHistorys(
         historys.map((history, i) => {
           if (i == index) {
-            history.expanded = true;
+            history.expanded = !history.expanded;
           } else {
             history.expanded = false;
           }
@@ -43,28 +45,36 @@ const HistoryList = () => {
   };
 
   return (
-    <div>
-      <h1>History</h1>
-      {historys &&
-        historys.map((history, i) => (
-          <div key={i}>
-            {
-              <Accordion
-                key={i}
-                expanded={history.expanded}
-                onChange={handleChange(i)}
-              >
-                <AccordionSummary>
-                  <Typography>{history.city}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <ArticleList articles={history.info}/>
-                </AccordionDetails>
-              </Accordion>
-            }
-          </div>
-        ))}
-    </div>
+    <Box>
+      <TableContainer sx={{ maxHeight: 621 }}>
+        {historys &&
+          historys.map((history, i) => (
+            <div key={i}>
+              {
+                <Accordion
+                  key={i}
+                  expanded={history.expanded}
+                  onChange={handleChange(i)}
+                  className="accordion1"
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls={"panel{"+i+"bh-content"}
+                    id={"panel"+i+"bh-header"}
+                  >
+                    <Typography variant="h6" className="title">
+                      {history.city[0].toUpperCase() + history.city.slice(1)}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <ArticleList articles={history.info} />
+                  </AccordionDetails>
+                </Accordion>
+              }
+            </div>
+          ))}
+      </TableContainer>
+    </Box>
   );
 };
 

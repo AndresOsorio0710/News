@@ -25,17 +25,16 @@ namespace backend.Logics
             string date = DateTime.Now.ToString("yyyy-MM-dd");
             try
             {
-                string url = $"https://newsapi.org/v2/everything?q={_city}&from={date}&sortBy=publishedAt&apiKey={keyNews}";
-                Console.WriteLine(url);
-                response = await client.GetStringAsync(url);
+                string url = $"https://newsapi.org/v2/everything?q={_city}&from={date}&sortBy=publishedAt&apiKey={this.keyNews}";
+                response = await this.client.GetStringAsync(url);
                 newsResponse = JsonConvert.DeserializeObject<NewsResponse>(response);
-                response = await client.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={_city}&units=metric&appid={keyWeather}");
+                response = await this.client.GetStringAsync($"http://api.openweathermap.org/data/2.5/weather?q={_city}&units=metric&appid={this.keyWeather}");
                 newsResponse.Weather = JsonConvert.DeserializeObject<Weather>(response);
                 return newsResponse;
             }
-            catch (SystemException e)
+            catch (SystemException error)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Error: " + error);
                 return null;
             }
         }
@@ -51,15 +50,13 @@ namespace backend.Logics
             string response = "";
             try
             {
-                HttpClient client = new HttpClient();
-                string url = String.Format($"https://newsapi.org/v2/everything?q={_city}&from={_date}&to={_date}&sortBy=publishedAt&apiKey={keyNews}");
-                Console.WriteLine(url);
-                response = await client.GetStringAsync(url);
+                string url = String.Format($"https://newsapi.org/v2/everything?q={_city}&from={_date}&to={_date}&sortBy=publishedAt&apiKey={this.keyNews}");
+                response = await this.client.GetStringAsync(url);
                 return response;
             }
-            catch (SystemException e)
+            catch (SystemException error)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Error: " + error);
                 return null;
             }
         }

@@ -13,7 +13,7 @@ namespace backend.Logics
         private readonly NewsContext dbContext;
         public HistoryLogic(NewsContext _dbContext)
         {
-            dbContext = _dbContext;
+            this.dbContext = _dbContext;
         }
 
         public async Task<History> Save(string _city)
@@ -23,19 +23,18 @@ namespace backend.Logics
             _history.City = _city;
             _history.DateSave = DateTime.Now;
             _history.Data = DateTime.Now.ToString("yyyy-MM-dd");
-            Console.WriteLine(_history.Data);
             try
             {
                 if (validateHistory(_history))
                 {
-                    dbContext.Historys.Add(_history);
-                    await dbContext.SaveChangesAsync();
+                    this.dbContext.Historys.Add(_history);
+                    await this.dbContext.SaveChangesAsync();
                 }
                 return _history;
             }
             catch (System.Exception error)
             {
-                Console.WriteLine("SALIO MAL: " + error);
+                Console.WriteLine("Error: " + error);
                 return null;
                 throw;
             }
@@ -45,11 +44,11 @@ namespace backend.Logics
         {
             try
             {
-                return await dbContext.Historys.OrderBy(history => history.DateSave).ToListAsync();
+                return await this.dbContext.Historys.OrderBy(history => history.DateSave).ToListAsync();
             }
-            catch (SystemException e)
+            catch (SystemException error)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Error: " + error);
                 return null;
             }
 
@@ -57,12 +56,12 @@ namespace backend.Logics
 
         public History Get(Guid _historyId)
         {
-            return dbContext.Historys.Where(history => (history.HistoryId == _historyId)).FirstOrDefault();
+            return this.dbContext.Historys.Where(history => (history.HistoryId == _historyId)).FirstOrDefault();
         }
 
         private Boolean validateHistory(History _history)
         {
-            var count = dbContext.Historys
+            var count = this.dbContext.Historys
             .Where(history => (
                 history.City.Equals(_history.City)
                 && history.Data.Equals(_history.Data)
