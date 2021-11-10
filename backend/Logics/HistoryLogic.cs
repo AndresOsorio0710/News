@@ -44,7 +44,7 @@ namespace backend.Logics
         {
             try
             {
-                return await this.dbContext.Historys.OrderBy(history => history.DateSave).ToListAsync();
+                return await this.dbContext.Historys.OrderBy(history => history.Data).ToListAsync();
             }
             catch (SystemException error)
             {
